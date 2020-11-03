@@ -16,15 +16,10 @@ async function main() {
   }
   
   benchCmd = ["bench"];
-  if ((cargoBenchName = core.getInput("benchName"))) {
-    benchCmd = benchCmd.concat(["--bench", cargoBenchName]);
+  var packageName = core.getInput("package");
+  if (packageName && packageName !== "") {
+    benchCmd = benchCmd.concat(["-p", packageName]);
   }
-
-  if ((cargoPackage = core.getInput("package"))) {
-    benchCmd = benchCmd.concat(["-p", cargoBenchName]);
-  }
-  benCmd = benchCmd.concat(["--", "--save-baseline", "changes"]);
-  core.debug("executing cargo command: 'cargo " + benchCmd.join(" ") + "'");
 
   core.debug("### Install Critcmp ###");
   await exec.exec("cargo", ["install", "critcmp"]);
@@ -32,7 +27,7 @@ async function main() {
   core.debug("### Benchmark starting ###");
   await exec.exec(
     "cargo",
-    benchCmd,
+    benchCmd.concat(["--", "--save-baseline", "changes"]),
     options
   );
   core.debug("Changes benchmarked");
