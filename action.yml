@@ -6,6 +6,10 @@ inputs:
     required: true
     default: ""
   cwd:
+    description: "Sets the cargo package if this is a cargo workspace"
+    required: false
+    default: ""
+  cwd:
     description: "Sets the directory to run the benchmarks, relative to the project directory"
     required: false
     default: ""
