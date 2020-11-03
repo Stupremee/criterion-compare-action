@@ -5,7 +5,7 @@ inputs:
     description: "Github Token required to upload to the PR"
     required: true
     default: ""
-  cwd:
+  package:
     description: "Sets the cargo package if this is a cargo workspace"
     required: false
     default: ""
