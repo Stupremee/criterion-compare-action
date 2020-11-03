@@ -21,8 +21,10 @@ async function main() {
   }
 
   if ((cargoPackage = core.getInput("package"))) {
-    benchCmd = benchCmd.concat(["-p", cargoPackage]);
+    benchCmd = benchCmd.concat(["-p", cargoBenchName]);
   }
+  benCmd = benchCmd.concat(["--", "--save-baseline", "changes"]);
+  core.debug("executing cargo command: 'cargo " + benchCmd.join(" ") + "'");
 
   core.debug("### Install Critcmp ###");
   await exec.exec("cargo", ["install", "critcmp"]);
@@ -30,7 +32,7 @@ async function main() {
   core.debug("### Benchmark starting ###");
   await exec.exec(
     "cargo",
-    benchCmd.concat(["--", "--save-baseline", "changes"]),
+    benchCmd,
     options
   );
   core.debug("Changes benchmarked");
